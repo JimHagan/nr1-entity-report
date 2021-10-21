@@ -1,5 +1,5 @@
 # infra-host-report
-Simple tool for extracting a report of all HOST applications avaiable to a user based on his user key.
+Simple tool for extracting a report of all New Relic monitored hosts avaiable to a user based on his user key.
 
 ## Getting started
 
