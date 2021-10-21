@@ -1,4 +1,5 @@
-### <span style="color:red">Currently this script is hampered by the 200 entity limit for Nerdgraph queries made against customer facing endpoints.  We are working on a solution to work around this.</span>.
+:warning: | Currently this script is hampered by the 200 entity limit for Nerdgraph queries made against customer facing endpoints.  We are working on a solution to work around this.
+:---: | :---
 
 # infra-host-report
 Simple tool for extracting a report of all New Relic monitored hosts avaiable to a user based on his user key.
