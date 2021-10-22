@@ -1,5 +1,10 @@
 # nr1-entity-report
-Simple tool for extracting a report of all New Relic monitored entities available to a user based on his user key.  Currently supports INFRA HOST, APM APPLICTION, and BROWSER APPLICATION
+Simple tool for extracting a report of all New Relic monitored entities available to a user based on his user key.  Currently supports the following Nerdgraph domains:
+- APM
+- BROWSER
+- INFRA
+- MOBILE
+- SYNTH
 
 ## Getting started
 
