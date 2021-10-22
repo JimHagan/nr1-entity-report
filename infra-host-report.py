@@ -36,11 +36,9 @@ TEMPLATED_CURSOR_QUERY = """
 }
 """
 
-account_host_dict = {}
-official_count = None
 def get_host_metadata():
-    global official_count
     official_count = None
+    account_host_dict = {}
     headers = {}
     headers['Api-Key'] = os.getenv('USER_API_KEY')
     headers['Content-Type'] = 'application/json'
@@ -77,7 +75,7 @@ def get_host_metadata():
         else:
             account_host_dict[account] = 1
     
-    return (account_host_dict, host_objects, key_set)
+    return (account_host_dict, host_objects, key_set, official_count)
 
 
 
@@ -101,7 +99,7 @@ def report_to_stdout(account_host_dict, host_objects, official_count):
 
 
 def main():
-    account_host_dict, host_objects, key_set = get_host_metadata()
+    account_host_dict, host_objects, key_set, official_count = get_host_metadata()
     write_csv(host_objects, key_set)
     report_to_stdout(account_host_dict, host_objects, official_count)
 
