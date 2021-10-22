@@ -1,5 +1,5 @@
-# infra-host-report
-Simple tool for extracting a report of all New Relic monitored hosts avaiable to a user based on his user key.
+# nr1-entity-report
+Simple tool for extracting a report of all New Relic monitored entities avaiable to a user based on his user key.  Currently supports INFRA HOST, APM APPLICTION, and  BROWSER APPLICATION
 
 ## Getting started
 
@@ -21,8 +21,18 @@ export USER_API_KEY=A_NEW_RELIC_USER_API_KEY
 
 5. Run the program
 
+There are currently three entity domains supported
+
+- INFRA
+- APM
+- BROWSER
+- MOBILE
+- SYNTH
+
+Let's run it with the INFRA domain.
+
 ```
-python infra-host-report.py
+python nr1-entity-report.py INFRA
 ```
 
 You should see a nice summary of host counts broken down by account like so:
@@ -30,7 +40,7 @@ You should see a nice summary of host counts broken down by account like so:
 ```
 ###### Report Summary ##########
 Number of Accounts: 6
-Total Number of Hosts: 260
+Total Number of Entities: 260
 ###### Account Breakdown #######
 Video Demo: 4
 Demotron V2: 78
@@ -40,4 +50,4 @@ Demotron Distributed Tracing: 17
 Demotron_CAS: 67
 ```
 
-6. Explore and analyze the output file `infra-host-report.csv`
+6. Explore and analyze the output file `nr1-entity-report.csv`
