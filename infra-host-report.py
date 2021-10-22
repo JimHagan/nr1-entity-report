@@ -2,10 +2,45 @@ import os
 import csv
 from python_graphql_client import GraphqlClient
 
+# Required to fetch paginated entities beyond the default limit of 20.
+templated_cursor_query = """
+{
+  actor {
+    entitySearch(queryBuilder: {domain: INFRA, type: HOST}) {
+      results(cursor: "CURSOR_HASH") {
+        entities {
+          tags {
+            key
+            values
+          }
+          guid
+          name
+          reporting
+          permalink
+          accountId
+          account {
+            id
+            name
+          }
+          ... on InfrastructureHostEntityOutline {
+            guid
+            name
+            domain
+          }
+        }
+        nextCursor
+      }
+      count
+    }
+  }
+}
+"""
+
 account_host_dict = {}
-official_count = 0
+official_count = None
 def get_host_metadata():
     global official_count
+    official_count = None
     headers = {}
     headers['Api-Key'] = os.getenv('USER_API_KEY')
     headers['Content-Type'] = 'application/json'
@@ -36,6 +71,7 @@ def get_host_metadata():
             domain
           }
         }
+        nextCursor
       }
       count
     }
@@ -48,10 +84,25 @@ def get_host_metadata():
 
         """
 
-    _result = client.execute(query=query)
-    official_count = _result['data']['actor']['entitySearch']['count']
-    return [data for data in _result['data']['actor']['entitySearch']['results']['entities']]
+    results = []
+    cursor = query
+    while cursor:
+        #print(cursor)
+        _result = client.execute(query=cursor)
+        print(_result)
+        if not official_count:
+            official_count = _result['data']['actor']['entitySearch']['count']
+        results += [data for data in _result['data']['actor']['entitySearch']['results']['entities']]
+        cursor_hash = _result['data']['actor']['entitySearch']['results']['nextCursor']
+        if cursor_hash:
+            cursor = templated_cursor_query.replace("CURSOR_HASH", cursor_hash)
 
+        print("Cursor: ", cursor)
+        #print(_result)
+        print(official_count, len(results))
+        if (len(results) == official_count):
+            cursor = None
+    return results
 
 data = get_host_metadata()
 
