@@ -39,6 +39,7 @@ You should see a nice summary of host counts broken down by account like so:
 
 ```
 ###### Report Summary ##########
+Entity Domain: INFRA
 Number of Accounts: 6
 Total Number of Entities: 260
 ###### Account Breakdown #######
