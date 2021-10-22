@@ -87,19 +87,13 @@ def get_host_metadata():
     results = []
     cursor = query
     while cursor:
-        #print(cursor)
         _result = client.execute(query=cursor)
-        print(_result)
         if not official_count:
             official_count = _result['data']['actor']['entitySearch']['count']
         results += [data for data in _result['data']['actor']['entitySearch']['results']['entities']]
         cursor_hash = _result['data']['actor']['entitySearch']['results']['nextCursor']
         if cursor_hash:
             cursor = templated_cursor_query.replace("CURSOR_HASH", cursor_hash)
-
-        print("Cursor: ", cursor)
-        #print(_result)
-        print(official_count, len(results))
         if (len(results) == official_count):
             cursor = None
     return results
