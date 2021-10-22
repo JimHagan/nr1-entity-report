@@ -24,17 +24,7 @@ pip install -r requirements.txt
 export USER_API_KEY=A_NEW_RELIC_USER_API_KEY
 ```
 
-5. Run the program
-
-There are currently three entity domains supported
-
-- INFRA
-- APM
-- BROWSER
-- MOBILE
-- SYNTH
-
-Let's run it with the INFRA domain.
+5. There are a number of suppported domains.  To test let's run it with the `INFRA` domain.
 
 ```
 python nr1-entity-report.py INFRA
