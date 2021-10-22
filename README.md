@@ -30,14 +30,14 @@ You should see a nice summary of host counts broken down by account like so:
 ```
 ###### Report Summary ##########
 Number of Accounts: 6
-Total Number of Hosts: 200
+Total Number of Hosts: 260
 ###### Account Breakdown #######
-Video Demo: 1
-Demotron V2: 65
-GCP DEMO: 34
-Demotron Rotate: 60
-Demotron Distributed Tracing: 11
-Demotron_CAS: 29
+Video Demo: 4
+Demotron V2: 78
+GCP DEMO: 21
+Demotron Rotate: 73
+Demotron Distributed Tracing: 17
+Demotron_CAS: 67
 ```
 
 6. Explore and analyze the output file `infra-host-report.csv`
