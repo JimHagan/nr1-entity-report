@@ -130,6 +130,16 @@ def main():
     parser.add_argument('entity_domain', choices=ENTITY_MAPPING.keys())
     args = parser.parse_args()
     entity_domain = args.entity_domain
+
+    _key = os.getenv('USER_API_KEY')
+    if not _key:
+        print("Set environment variable 'USER_API_KEY' first")
+        print("See: https://docs.newrelic.com/docs/apis/intro-apis/new-relic-api-keys/#user-api-key")
+        return
+    else:
+        obfuscated_key = _key[:9] + ("*" * (len(_key) - 9))
+        print("Running with user key: {}".format(obfuscated_key))
+
     account_entity_dict, entity_objects, key_set, official_count = get_entity_metadata(entity_domain)
     write_csv(entity_objects, key_set)
     report_to_stdout(account_entity_dict, entity_objects, official_count, entity_domain)
