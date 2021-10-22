@@ -3,11 +3,11 @@ import csv
 from python_graphql_client import GraphqlClient
 
 # Required to fetch paginated entities beyond the default limit of 20.
-templated_cursor_query = """
+TEMPLATED_CURSOR_QUERY = """
 {
   actor {
     entitySearch(queryBuilder: {domain: INFRA, type: HOST}) {
-      results(cursor: "CURSOR_HASH") {
+      results<CURSOR_STATEMENT> {
         entities {
           tags {
             key
@@ -46,44 +46,7 @@ def get_host_metadata():
     headers['Content-Type'] = 'application/json'
     client = GraphqlClient(endpoint="https://api.newrelic.com/graphql")
     client.headers=headers
-    query = """
-{
-  actor {
-    entitySearch(queryBuilder: {domain: INFRA, type: HOST}) {
-      results {
-        entities {
-          tags {
-            key
-            values
-          }
-          guid
-          name
-          reporting
-          permalink
-          accountId
-          account {
-            id
-            name
-          }
-          ... on InfrastructureHostEntityOutline {
-            guid
-            name
-            domain
-          }
-        }
-        nextCursor
-      }
-      count
-    }
-  }
-}
-
-
-
-
-
-        """
-
+    query = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '')
     results = []
     cursor = query
     while cursor:
@@ -93,7 +56,7 @@ def get_host_metadata():
         results += [data for data in _result['data']['actor']['entitySearch']['results']['entities']]
         cursor_hash = _result['data']['actor']['entitySearch']['results']['nextCursor']
         if cursor_hash:
-            cursor = templated_cursor_query.replace("CURSOR_HASH", cursor_hash)
+            cursor = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '(cursor: "{}")'.format(cursor_hash))
         if (len(results) == official_count):
             cursor = None
     return results
