@@ -38,6 +38,7 @@ python nr1-entity-report.py INFRA
 You should see a nice summary of host counts broken down by account like so:
 
 ```
+Running with user key: NRAK-MP8O***********************
 ###### Report Summary ##########
 Entity Domain: INFRA
 Number of Accounts: 6
