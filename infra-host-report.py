@@ -59,41 +59,51 @@ def get_host_metadata():
             cursor = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '(cursor: "{}")'.format(cursor_hash))
         if (len(results) == official_count):
             cursor = None
-    return results
 
-data = get_host_metadata()
-
-
-key_set = set()
-host_objects = []
-counter = 0
-for item in data:
-    counter += 1
-    scrubbed = {}
-    for tag in item['tags']:
-        scrubbed[tag['key']] = tag['values'][0]
-    for k in scrubbed.keys():
-        key_set.add(k)
-    host_objects.append(scrubbed)
-    account = scrubbed['account']
-    if account in account_host_dict:
-        account_host_dict[account]+=1
-    else:
-        account_host_dict[account] = 1
+    key_set = set()
+    host_objects = []
+    counter = 0
+    for item in results:
+        counter += 1
+        scrubbed = {}
+        for tag in item['tags']:
+            scrubbed[tag['key']] = tag['values'][0]
+        for k in scrubbed.keys():
+            key_set.add(k)
+        host_objects.append(scrubbed)
+        account = scrubbed['account']
+        if account in account_host_dict:
+            account_host_dict[account]+=1
+        else:
+            account_host_dict[account] = 1
+    
+    return (account_host_dict, host_objects, key_set)
 
 
 
-with open('infra-host-report.csv', 'w') as f:
-    w = csv.DictWriter(f, key_set, extrasaction='ignore')
-    w.writeheader()
-    w.writerows(host_objects)
+
+def write_csv(host_objects, key_set):
+    with open('infra-host-report.csv', 'w') as f:
+        w = csv.DictWriter(f, key_set, extrasaction='ignore')
+        w.writeheader()
+        w.writerows(host_objects)
+
+def report_to_stdout(account_host_dict, host_objects, official_count):
+    if (official_count > len(host_objects)):
+        print("Warning this report is based on a truncated graphql response! Only showing {} out of {} entities!".format(counter, official_count))
+    print("###### Report Summary ##########")
+    print("Number of Accounts: {}".format(len(account_host_dict.keys())))
+    print("Total Number of Hosts: {}".format(len(host_objects)))
+    print("###### Account Breakdown #######")
+    for account, host_count in account_host_dict.items():
+        print("{}: {}".format(account, host_count))
 
 
-if (official_count > counter):
-    print("Warning this report is based on a truncated graphql response! Only showing {} out of {} entities!".format(counter, official_count))
-print("###### Report Summary ##########")
-print("Number of Accounts: {}".format(len(account_host_dict.keys())))
-print("Total Number of Hosts: {}".format(len(host_objects)))
-print("###### Account Breakdown #######")
-for account, host_count in account_host_dict.items():
-    print("{}: {}".format(account, host_count))
+
+def main():
+    account_host_dict, host_objects, key_set = get_host_metadata()
+    write_csv(host_objects, key_set)
+    report_to_stdout(account_host_dict, host_objects, official_count)
+
+if __name__ == '__main__':
+    main()
