@@ -5,6 +5,7 @@ Simple tool for extracting a report of all New Relic monitored entities availabl
 - INFRA
 - MOBILE
 - SYNTH
+- DASHBOARD
 
 ## Getting started
 
@@ -62,3 +63,5 @@ here is sample row from that same INFRA summary...
 ```
 Order-Assembly			UMBRA	nodes			demotronnr@newrelic.com	ami-0008325f0ded04d04	2119955		ip-172-20-45-212	running	14140		arn:aws:ec2:us-west-2:412066592467:instance/i-0446fdc886e2540a3	umbrarotate.k8s.local							Debian GNU/Linux 9 (stretch)			us-west-2a	x86_64	FALSE		us-west-2		running	demotron		Infrastructure		657681470							t3a.small	ip-172-20-45-212.us-west-2.compute.internal	umbrarotate.k8s.local				linux						i-0446fdc886e2540a3	default			nodes		MjExOTk1NXxJTkZSQXxOQXwzMzE4MjU5NzIxNTA1NDkwNjMz			hvm		ip-172-20-45-212.us-west-2.compute.internal		SITE		DEMO					412066592467	1.14.2		us-production			us-production		nodes.umbrarotate.k8s.local	172.20.45.212	subnet-04f08cac391cfe455			ec2-54-188-157-201.us-west-2.compute.amazonaws.com		kubernetes.umbrarotate.k8s.local-23:16:7a:dc:e3:e9:e0:54:2c:2e:5c:e1:71:f5:da:e3					4.9.0-7-amd64				1	Demotron Rotate					1		vpc-0f32eb8961ab0b2e0		t3a.small	DEMO	xen		SITE			54.188.157.201			demotron		2	Rotate AWS Integration	ebs	nodes.umbrarotate.k8s.local	/dev/xvda	owned	2119955	ip-172-20-45-212.us-west-2.compute.internal	2068160512
 ```
+
+7. Take a look at the file `nr1-entity-report.nerdgraph`.  This shows a static nerdgraph query you can run in the NR1 UI if wish to explore.
