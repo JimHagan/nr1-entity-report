@@ -68,7 +68,7 @@ def get_entity_metadata(entity_domain):
     client = GraphqlClient(endpoint="https://api.newrelic.com/graphql")
     client.headers=headers
     query = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '')
-    _domain = ENTITY_MAPPING[entity_domain]['DOMAIN']
+    _domain = ENTITY_MAPPING[entity_domain]['DOMAIN'] 
     query = query.replace("<DOMAIN_STATEMENT>", 'domain: {}, '.format(_domain) if _domain else '')
     query = query.replace("<ENTITY_TYPE>", ENTITY_MAPPING[entity_domain]['TYPE'])
     query = query.replace("<ENTITY_MODEL>", ENTITY_MAPPING[entity_domain]['MODEL'])
@@ -77,16 +77,14 @@ def get_entity_metadata(entity_domain):
     while cursor:
         _result = client.execute(query=cursor)
         if not official_count:
-            with open('nr1-entity-report.nerdgraph', 'w') as f:
-                f.write(cursor)
+            print(cursor)
         if not official_count:
             official_count = _result['data']['actor']['entitySearch']['count']
         results += [data for data in _result['data']['actor']['entitySearch']['results']['entities']]
         cursor_hash = _result['data']['actor']['entitySearch']['results']['nextCursor']
         if cursor_hash:
             cursor = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '(cursor: "{}")'.format(cursor_hash))
-            _domain = ENTITY_MAPPING[entity_domain]['DOMAIN'] 
-            cursor = cursor.replace("<DOMAIN_STATEMENT>", 'domain: {}, '.format(_domain) if _domain else '')
+            cursor = cursor.replace("<ENTITIY_DOMAIN>", ENTITY_MAPPING[entity_domain]['DOMAIN'])
             cursor = cursor.replace("<ENTITY_TYPE>", ENTITY_MAPPING[entity_domain]['TYPE'])
             cursor = cursor.replace("<ENTITY_MODEL>", ENTITY_MAPPING[entity_domain]['MODEL'])
         if (len(results) == official_count):
