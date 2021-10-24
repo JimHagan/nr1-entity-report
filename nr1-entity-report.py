@@ -85,7 +85,7 @@ def get_entity_metadata(entity_domain):
         cursor_hash = _result['data']['actor']['entitySearch']['results']['nextCursor']
         if cursor_hash:
             cursor = TEMPLATED_CURSOR_QUERY.replace("<CURSOR_STATEMENT>", '(cursor: "{}")'.format(cursor_hash))
-            _domain = ENTITY_MAPPING[entity_domain]['DOMAIN'] 
+            _domain = ENTITY_MAPPING[entity_domain]['DOMAIN']
             cursor = cursor.replace("<DOMAIN_STATEMENT>", 'domain: {}, '.format(_domain) if _domain else '')
             cursor = cursor.replace("<ENTITY_TYPE>", ENTITY_MAPPING[entity_domain]['TYPE'])
             cursor = cursor.replace("<ENTITY_MODEL>", ENTITY_MAPPING[entity_domain]['MODEL'])
